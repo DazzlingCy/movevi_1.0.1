@@ -112,7 +112,7 @@ export default function App() {
             关闭并返回 App
           </button>
         </div>
-        <iframe src="/retention_mechanics_presentation.html" className="w-full flex-1 border-none bg-transparent" />
+        <iframe src={`${import.meta.env.BASE_URL}retention_mechanics_presentation.html`} className="w-full flex-1 border-none bg-transparent" />
       </div>
     );
   }

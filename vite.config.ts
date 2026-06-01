@@ -6,7 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: './', // 设为相对路径，方便 GitHub Pages 部署或本地预览
+    base: process.env.NODE_ENV === 'production' ? '/movevi_1.0.1/' : '/', // 修复 GitHub Pages 子路径下的 404 问题
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
