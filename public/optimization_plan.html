@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOVEVI 木卫六 - 下一阶段迭代优化方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #020617; /* Slate 950 */
+            color: #f8fafc; /* Slate 50 */
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #22d3ee, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4); /* Slate 800 with opacity */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-20">
+    <!-- Header -->
+    <header class="pt-16 pb-12 px-6 max-w-4xl mx-auto">
+        <div class="flex items-center space-x-3 mb-8">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-emerald-400"></div>
+            <h2 class="text-xl font-bold tracking-widest text-slate-300 uppercase">MOVEVI 木卫六</h2>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+            让跑步机从一次性硬件消费，<br>
+            变成 <span class="gradient-text">持续内容体验</span>。
+        </h1>
+        <p class="text-slate-400 text-lg max-w-2xl leading-relaxed">
+            基于当前 App 版本基础，本方案旨在明确下一阶段的资源投入方向：停止泛运动社区的盲目扩张，转型为<strong class="text-cyan-400">硬件专用内容引擎</strong>。核心聚焦：设备激活、首次实景跑、复跑机制和指标闭环。
+        </p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-16">
+        
+        <!-- Section 1: Executive Summary -->
+        <section>
+            <div class="border-l-4 border-cyan-400 pl-4 mb-8">
+                <h3 class="text-2xl font-semibold">01 / 管理层摘要</h3>
+                <p class="text-slate-400 mt-1">App 是硬件的内容引擎，而非独立社区</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="bg-cyan-500/20 text-cyan-400 text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">当前基础</div>
+                    <h4 class="text-xl font-medium mb-2">入口与内容都已具备</h4>
+                    <p class="text-slate-400 text-sm">已有数千活跃 App 用户及全球实景视频路线。目前的挑战是如何把这 1 万台存量跑步机转化为高频使用的内容终端。</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border-cyan-500/30">
+                    <div class="bg-cyan-500/20 text-cyan-400 text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">推荐核心动作</div>
+                    <h4 class="text-xl font-medium mb-2">先打穿激活和复跑</h4>
+                    <p class="text-slate-400 text-sm">围绕“设备绑定 -> 推荐第一跑 -> 城市点亮 -> 跑后结算”建立持续的内容消费路径。暂缓大社区和深度商业化工作。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: UI & Feature Optimization -->
+        <section>
+            <div class="border-l-4 border-indigo-400 pl-4 mb-8">
+                <h3 class="text-2xl font-semibold">02 / 核心界面与功能改造方案</h3>
+                <p class="text-slate-400 mt-1">针对现有 React/Vite 代码库的具体升级映射</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Priority 1 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xl">1</div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">打穿激活链路：设备绑定</h4>
+                        <p class="text-slate-400 text-sm mb-4">在 <code class="text-cyan-300">IntroScreen.tsx</code> 或首次进入首页时，强制或强引导用户完成设备绑定（蓝牙/扫码）。绑定后解锁专属权益（如解锁特定路线），产生沉没成本。</p>
+                        <div class="bg-slate-900/50 p-4 rounded-xl text-sm text-slate-300 border border-slate-700">
+                            <strong>改造点:</strong> 重构个人页 (ProfileTab)，将“我的”转变为“资产中心”，优先展示已绑定设备的状态及累计通过该设备产生的“光力值”。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority 2 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xl">2</div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">首页升级：“今天跑什么”取代“世界地图”</h4>
+                        <p class="text-slate-400 text-sm mb-4">世界地图适合远期目标，但用户最需要降低当下的决策成本。首页 (<code class="text-cyan-300">HomeTab.tsx</code>) 应提供最直接的行动入口。</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                <span class="text-cyan-400 text-xs font-bold uppercase tracking-wider block mb-1">最高优先</span>
+                                <strong class="text-white block mb-1">继续上次路线</strong>
+                                <span class="text-slate-400 text-xs text-balance">降低决策门槛，直接续跑未完成的城市或片段。</span>
+                            </div>
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider block mb-1">新手友好</span>
+                                <strong class="text-white block mb-1">15分钟轻松跑</strong>
+                                <span class="text-slate-400 text-xs text-balance">助力首次进入的用户快速获得完成感，建立信心。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority 3 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row gap-6 items-start">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xl">3</div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">复跑指标闭环：跑后结算与城市点亮</h4>
+                        <p class="text-slate-400 text-sm mb-4">在 <code class="text-cyan-300">RunPlaybackView.tsx</code> 结束时，不只展示卡路里和公里数，更需要用极具仪式感的动效展示：你在目标城市中推进了进度，并明确抛出“下一段路线”的推荐。</p>
+                        <div class="bg-slate-900/50 p-4 rounded-xl text-sm text-slate-300 border border-slate-700">
+                            <strong>改造点:</strong> 将“点亮城市” (<code class="text-cyan-300">CitiesTab.tsx</code>) 与结算深度结合。每次跑完，都要让用户清楚：我获得了什么（城市卡片碎片），下一步要跑什么。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Roadmap -->
+        <section>
+            <div class="border-l-4 border-emerald-400 pl-4 mb-8">
+                <h3 class="text-2xl font-semibold">03 / 版本发布路线图 (Roadmap)</h3>
+                <p class="text-slate-400 mt-1">4 个版本将内容能力转化为增长能力</p>
+            </div>
+
+            <div class="relative border-l border-slate-700 pl-6 space-y-10 py-2">
+                <!-- V1 -->
+                <div class="relative">
+                    <div class="absolute -left-[30px] top-1 w-4 h-4 bg-emerald-400 rounded-full ring-4 ring-[#020617]"></div>
+                    <h4 class="text-lg font-bold text-emerald-400 mb-1">V1 激活与首跑 (近期立项)</h4>
+                    <p class="text-slate-300 text-sm mb-3">目标：提升设备激活率和首次路线完成率。</p>
+                    <ul class="text-sm text-slate-400 list-disc pl-5 space-y-1">
+                        <li>设备绑定引导与硬件接通</li>
+                        <li>首页快速推荐（继续上次、15分钟开跑）</li>
+                        <li>跑后结算页直接展示城市进度及下次目标</li>
+                    </ul>
+                </div>
+                <!-- V2 -->
+                <div class="relative">
+                    <div class="absolute -left-[30px] top-1 w-4 h-4 bg-slate-600 rounded-full ring-4 ring-[#020617]"></div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1">V2 复跑与点亮</h4>
+                    <p class="text-slate-400 text-sm mb-3">目标：提高 7 日复跑率与单用户月均消耗实景数。</p>
+                    <ul class="text-sm text-slate-500 list-disc pl-5 space-y-1">
+                        <li>城市点亮系统完整化、收集城市卡片</li>
+                        <li>本周目标任务、连续跑步鼓励</li>
+                        <li>个人主页全面升级为虚拟资产中心</li>
+                    </ul>
+                </div>
+                <!-- V3 -->
+                <div class="relative">
+                    <div class="absolute -left-[30px] top-1 w-4 h-4 bg-slate-700 rounded-full ring-4 ring-[#020617]"></div>
+                    <h4 class="text-lg font-bold text-slate-400 mb-1">V3 活动与社群</h4>
+                    <ul class="text-sm text-slate-600 list-disc pl-5 mt-2">
+                        <li>城市挑战赛、路线风光评价机制</li>
+                        <li>家庭榜单、好友榜单、同路线轻量排行</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Metrics -->
+        <section class="mb-12">
+            <div class="glass-card p-8 rounded-3xl border-t-4 border-t-cyan-400 text-center">
+                <h3 class="text-sm font-bold text-cyan-400 tracking-widest uppercase mb-4">North Star Metric (北极星指标)</h3>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">每台已激活跑步机的月均<br class="hidden md:block">实景跑步时长</h2>
+                <p class="text-slate-400 text-sm max-w-xl mx-auto">
+                    放弃虚荣的 App 独立下载量。我们的成功标准只有一个：绑定 App 后的跑步机，是否比未绑定的设备拥有更高的使用频率和留存。不要做大而全的社区，做好硬件的灵魂。
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-slate-600 text-sm border-t border-slate-800">
+        &copy; 2024 MOVEVI 木卫六 App 迭代规划报告 - Generated by AI Studio
+    </footer>
+</body>
+</html>
